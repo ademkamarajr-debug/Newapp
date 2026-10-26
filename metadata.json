@@ -1,0 +1,8 @@
+{
+  "name": "Dhouiher TV - Streaming & Live IPTV",
+  "description": "Dhouiher TV is a premium, cinematic streaming platform featuring Live TV with interactive EPG, movies, TV series, multi-language support (French & Arabic RTL), custom M3U playlist import, and an advanced HLS video player.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
