@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Clock,
   Film,
@@ -19,6 +19,11 @@ export const FilmsPage: React.FC = () => {
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'rating' | 'latest'>('rating');
+  const [visibleCount, setVisibleCount] = useState(40);
+
+useEffect(() => {
+  setVisibleCount(40);
+}, [filteredMovies]);
 
   // Featured movie
   const featured = movies.find((m) => m.featured) || movies[0];
@@ -252,9 +257,29 @@ export const FilmsPage: React.FC = () => {
 
       {/* Movies Grid */}
       {isLoadingCatalog && movies.length === 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-            <div key={i} className="aspect-[3/4] rounded-2xl bg-slate-900/60 border border-slate-800 animate-pulse" />
+        <>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    {filteredMovies.slice(0, visibleCount).map((movie) => (
+      <MediaCard key={movie.id} item={movie} aspectRatio="poster" />
+    ))}
+  </div>
+
+  {visibleCount < filteredMovies.length && (
+    <div className="flex justify-center pt-6">
+      <button
+        type="button"
+        onClick={() =>
+          setVisibleCount((count) =>
+            Math.min(count + 40, filteredMovies.length)
+          )
+        }
+        className="px-6 py-3 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-sm transition-colors"
+      >
+        عرض المزيد ({filteredMovies.length - visibleCount})
+      </button>
+    </div>
+  )}
+</>
           ))}
         </div>
       ) : filteredMovies.length === 0 ? (
